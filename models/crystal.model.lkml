@@ -194,7 +194,15 @@ explore: tvlst {}
 
 explore: tvtwt {}
 
-explore: vbap {}
+explore: vbap {
+  join: lips{
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${vbap.vbeln}=${lips.vgbel}
+          and ${vbap.posnr}=${lips.vgpos}
+          and ${vbap.mandt}=${lips.mandt};;
+  }
+}
 
 explore: tvtw {}
 
@@ -211,4 +219,3 @@ explore: vbrk {}
 explore: vbuk {}
 
 explore: vbrp {}
-
