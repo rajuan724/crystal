@@ -1043,6 +1043,37 @@ view: vbak {
     description: "SD Document Category"
     sql: ${TABLE}.vbtyp ;;
   }
+
+  ##################################################### Total Orders  ############################################################
+  dimension: total_orders {
+    type: string
+    sql: if(${vbtyp}='C',${vbeln},NULL) ;;
+    hidden: no
+  }
+
+  measure: count_orders {
+    type: number
+    sql: count(${total_orders}) ;;
+    hidden: no
+  }
+  ###############################################################################################################################
+  ##################################################### Blocked Orders ###############################################
+
+  dimension: blocked_orders {
+    type: string
+    sql: if(${lifsk} =""  AND ${faksk} ="",'NotBlocked','Blocked' ) ;;
+    hidden: no
+  }
+
+  measure: count_blocked_orders {
+    type: count_distinct
+  # sql: ${sales_document_vbeln} || ${item_posnr} ;;
+    sql: ${vbeln};;
+    filters: [blocked_orders:"Blocked"]
+    hidden: no
+  }
+  ###############################################################################################################################
+
   dimension_group: vdatu {
     type: time
     description: "Requested Delivery Date"

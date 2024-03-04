@@ -1027,6 +1027,16 @@ view: vbap {
     description: "Cumulative order quantity in sales units"
     sql: ${TABLE}.kwmeng ;;
   }
+
+  ########################################################
+  #####sum_kwmeng#####
+  measure: sum_kwmeng {
+    type: sum
+    sql: ${kwmeng};;
+   }
+  ####################
+  ########################################################
+
   dimension: kzbws {
     type: string
     description: "Valuation of Special Stock"
