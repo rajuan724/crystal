@@ -339,6 +339,96 @@ view: vbap {
     datatype: date
     sql: ${TABLE}.cmtd_deliv_date ;;
   }
+
+  ###############################################################
+  #########delivery#######
+  dimension: delivery {
+    type: yesno
+    sql:${cmtd_deliv_date}<>DATE(0001,01,01) ;;
+    hidden: no
+  }
+  ########################
+  ########ontime##########
+  dimension: ontime {
+    type: string
+    sql: IF( ${cmtd_deliv_date}<=${vdatu_ana_date},
+          'DeliveredOnTime',
+          'NotDeliveredOnTime') ;;
+    hidden: no
+  }
+  ########################
+  ########infull##########
+  dimension: infull {
+    type: string
+    sql: IF(${kwmeng}=${lips.lfimg},
+    'DeliveredInFull',
+    'NotDeliverdInFull') ;;
+    hidden: no
+  }
+  ########################
+  #####count_ontime#######
+  measure: count_on_time_delivery {
+    type: count_distinct
+    sql: ${vbeln};;
+    filters: [ontime:"DeliveredOnTime",delivery: "Yes"]
+    hidden: no
+  }
+  ########################
+  #####count_infull#######
+  measure: count_in_full_delivery {
+    type: count_distinct
+    sql: ${vbeln}  ;;
+    filters: [infull:"DeliveredInFull",delivery: "Yes"]
+    hidden: no
+  }
+  ########################
+  #####count_otif#########
+  measure: count_otif {
+    type: count_distinct
+    sql: ${vbeln} ;;
+    filters: [ontime: "DeliveredOnTime",infull: "DeliveredInFull",delivery: "Yes"]
+    hidden: no
+  }
+  ########################
+  #####count_delivery#####
+  measure: count_of_deliveries {
+    type: count_distinct
+    #sql: ${delivery_vbeln} || ${delivery_item_posnr};;
+    sql: ${vbeln} ;;
+    filters: [delivery: "Yes"]
+    hidden: no
+  }
+  ########################
+  #####ontime_percentage##
+  measure: OnTimePercentage {
+    type: number
+    sql: if(${count_of_deliveries}=0,0,${count_on_time_delivery}/NULLIF(${count_of_deliveries},0));;
+    hidden: no
+  }
+  ########################
+  #######late_percentage##
+  measure: LateDeliveryPercentage {
+    type: number
+    sql: 1-${OnTimePercentage};;
+    hidden: no
+  }
+  ########################
+  #####infull_percentage##
+  measure: InFullPercentage {
+    type: number
+    sql: if(${count_of_deliveries}=0,0,${count_in_full_delivery}/NULLIF(${count_of_deliveries},0))  ;;
+    hidden: no
+  }
+  ########################
+  ###otif_percentage######
+  measure: OTIFPercentage {
+    type: number
+    sql: if(${count_of_deliveries}=0,0,${count_otif}/NULLIF(${count_of_deliveries},0))  ;;
+    hidden: no
+  }
+  ########################
+  ###############################################################
+
   dimension: cmtd_deliv_qty_su {
     type: number
     description: "Committed Delivery Quantity in Sales Unit"
