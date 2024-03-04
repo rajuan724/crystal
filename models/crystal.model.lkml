@@ -202,6 +202,12 @@ explore: vbap {
           and ${vbap.posnr}=${lips.vgpos}
           and ${vbap.mandt}=${lips.mandt};;
   }
+  join: vbak{
+    type: inner
+    relationship: many_to_one
+    sql_on: ${vbap.vbeln}=${vbak.vgbel}
+          and ${vbap.mandt}=${vbak.mandt};;
+  }
 }
 
 explore: tvtw {}
