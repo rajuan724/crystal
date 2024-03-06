@@ -205,7 +205,7 @@ explore: vbap {
   join: vbak{
     type: inner
     relationship: many_to_one
-    sql_on: ${vbap.vbeln}=${vbak.vgbel}
+    sql_on: ${vbap.vbeln}=${vbak.vbeln}
           and ${vbap.mandt}=${vbak.mandt};;
   }
 }

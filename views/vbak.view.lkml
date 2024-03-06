@@ -647,6 +647,19 @@ view: vbak {
     description: "Delivery Status (All Items)"
     sql: ${TABLE}.lfstk ;;
   }
+
+  ########################################################################
+  ####Number Delivery Status#######
+  dimension: number_delivery_status {
+    type: number
+    sql: CASE
+         WHEN ${lfstk} = "A" THEN 1
+         WHEN ${lfstk} = "B" THEN 2
+         WHEN ${lfstk} = "C" THEN 3
+         ELSE null
+       END ;;
+  }
+  ########################################################################
   dimension: lifsk {
     type: string
     description: "Delivery Block (Document Header)"
@@ -1052,8 +1065,8 @@ view: vbak {
   }
 
   measure: count_orders {
-    type: number
-    sql: count(${total_orders}) ;;
+    type: count_distinct
+    sql: ${total_orders} ;;
     hidden: no
   }
   ###############################################################################################################################
