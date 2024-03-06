@@ -1032,6 +1032,7 @@ view: vbak {
     sql: ${TABLE}.uvvls ;;
   }
   dimension: vbeln {
+    primary_key: yes
     type: string
     description: "Sales Document"
     sql: ${TABLE}.vbeln ;;
