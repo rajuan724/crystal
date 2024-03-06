@@ -37,6 +37,36 @@ view: vbap {
     description: "Reason for Rejection of Sales Documents"
     sql: ${TABLE}.abgru ;;
   }
+
+  ########################################################################
+  #####count_order######
+  measure: count_total_orders {
+    type: count_distinct
+    sql: ${vbak.vbeln} ;;
+    hidden: no
+  }
+ #####canceled_order######
+  dimension: canceled_order {
+    type: string
+    sql: IF(${abgru} ="",'Canceled','NotCanceled') ;;
+    hidden: no
+  }
+
+  #####count_and_percentage_canceled_order######
+  measure: count_canceled_order {
+    type: count_distinct
+    #sql: ${sales_document_vbeln} || ${item_posnr} ;;
+    sql: ${vbak.vbeln} ;;
+    filters: [canceled_order: "Canceled"]
+    hidden: no
+  }
+
+  measure: canceled_order_percentage {
+    type: number
+    sql: if(${count_total_orders}=0,0,round(${count_canceled_order}/NULLIF(${count_total_orders},0)*100,2)) ;;
+    hidden: no
+  }
+  ########################################################################
   dimension: ablfz {
     type: number
     description: "Rounding quantity for delivery"
