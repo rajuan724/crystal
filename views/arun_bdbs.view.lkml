@@ -170,6 +170,7 @@ view: arun_bdbs {
     sql: ${TABLE}.salesdoc_item ;;
   }
   dimension: salesdoc_num {
+    primary_key: yes
     type: string
     description: "Sales Document"
     sql: ${TABLE}.salesdoc_num ;;

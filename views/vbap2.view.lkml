@@ -1,6 +1,11 @@
 view: vbap2 {
   sql_table_name: `crystal-sap-cortex-mvp.SAP_RAW.vbap2` ;;
 
+  dimension: key {
+    type: string
+    primary_key: yes
+    sql: CONCAT(${mandt},${posnr},${vbeln});;
+  }
   dimension_group: _dataaging {
     type: time
     description: "Data Filter Value for Data Aging"
