@@ -12,7 +12,16 @@ persist_with: crystal_default_datagroup
 
 explore: afko {}
 
-explore: arun_bdbs {}
+explore: arun_bdbs {
+  join: vbap2{
+    type: left_outer
+    relationship: many_to_one
+    sql_on: ${arun_bdbs.mandt}=${vbap2.mandt}
+          and ${arun_bdbs.salesdoc_num}=${vbap2.vbeln}
+          and ${arun_bdbs.salesdoc_item}=${vbap2.posnr};;
+  }
+
+}
 
 explore: but000 {}
 

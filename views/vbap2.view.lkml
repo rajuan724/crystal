@@ -1,5 +1,5 @@
-view: vbap {
-  sql_table_name: `SAP_RAW.vbap` ;;
+view: vbap2 {
+  sql_table_name: `crystal-sap-cortex-mvp.SAP_RAW.vbap2` ;;
 
   dimension_group: _dataaging {
     type: time
@@ -37,36 +37,6 @@ view: vbap {
     description: "Reason for Rejection of Sales Documents"
     sql: ${TABLE}.abgru ;;
   }
-
-  ########################################################################
-  #####count_order######
-  #measure: count_total_orders {
-  #  type: count_distinct
-  #  sql: ${vbak.vbeln} ;;
-  #  hidden: no
-  #}
- #####canceled_order######
-  #dimension: canceled_order {
-  #  type: string
-  #  sql: IF(${abgru} ="",'Canceled','NotCanceled') ;;
-  #  hidden: no
-  #}
-
-  #####count_and_percentage_canceled_order######
-  #measure: count_canceled_order {
-  #  type: count_distinct
-    #sql: ${sales_document_vbeln} || ${item_posnr} ;;
-  #  sql: ${vbak.vbeln} ;;
-  #  filters: [canceled_order: "Canceled"]
-  #  hidden: no
-  #}
-
-  #measure: canceled_order_percentage {
-  #  type: number
-  #  sql: if(${count_total_orders}=0,0,round(${count_canceled_order}/NULLIF(${count_total_orders},0)*100,2)) ;;
-  #  hidden: no
-  #}
-  ########################################################################
   dimension: ablfz {
     type: number
     description: "Rounding quantity for delivery"
@@ -369,96 +339,6 @@ view: vbap {
     datatype: date
     sql: ${TABLE}.cmtd_deliv_date ;;
   }
-
-  ###############################################################
-  #########delivery#######
-  dimension: delivery {
-    type: yesno
-    sql:${cmtd_deliv_date}<>DATE(0001,01,01) ;;
-    hidden: no
-  }
-  ########################
-  ########ontime##########
-  dimension: ontime {
-    type: string
-    sql: IF( ${cmtd_deliv_date}<=${vdatu_ana_date},
-          'DeliveredOnTime',
-          'NotDeliveredOnTime') ;;
-    hidden: no
-  }
-  ########################
-  ########infull##########
-  dimension: infull {
-    type: string
-    sql: IF(${kwmeng}=${lips.lfimg},
-    'DeliveredInFull',
-    'NotDeliverdInFull') ;;
-    hidden: no
-  }
-  ########################
-  #####count_ontime#######
-  measure: count_on_time_delivery {
-    type: count_distinct
-    sql: ${vbeln};;
-    filters: [ontime:"DeliveredOnTime",delivery: "Yes"]
-    hidden: no
-  }
-  ########################
-  #####count_infull#######
-  measure: count_in_full_delivery {
-    type: count_distinct
-    sql: ${vbeln}  ;;
-    filters: [infull:"DeliveredInFull",delivery: "Yes"]
-    hidden: no
-  }
-  ########################
-  #####count_otif#########
-  measure: count_otif {
-    type: count_distinct
-    sql: ${vbeln} ;;
-    filters: [ontime: "DeliveredOnTime",infull: "DeliveredInFull",delivery: "Yes"]
-    hidden: no
-  }
-  ########################
-  #####count_delivery#####
-  measure: count_of_deliveries {
-    type: count_distinct
-    #sql: ${delivery_vbeln} || ${delivery_item_posnr};;
-    sql: ${vbeln} ;;
-    filters: [delivery: "Yes"]
-    hidden: no
-  }
-  ########################
-  #####ontime_percentage##
-  measure: OnTimePercentage {
-    type: number
-    sql: if(${count_of_deliveries}=0,0,${count_on_time_delivery}/NULLIF(${count_of_deliveries},0));;
-    hidden: no
-  }
-  ########################
-  #######late_percentage##
-  measure: LateDeliveryPercentage {
-    type: number
-    sql: 1-${OnTimePercentage};;
-    hidden: no
-  }
-  ########################
-  #####infull_percentage##
-  measure: InFullPercentage {
-    type: number
-    sql: if(${count_of_deliveries}=0,0,${count_in_full_delivery}/NULLIF(${count_of_deliveries},0))  ;;
-    hidden: no
-  }
-  ########################
-  ###otif_percentage######
-  measure: OTIFPercentage {
-    type: number
-    sql: if(${count_of_deliveries}=0,0,${count_otif}/NULLIF(${count_of_deliveries},0))  ;;
-    hidden: no
-  }
-  ########################
-  ###############################################################
-
   dimension: cmtd_deliv_qty_su {
     type: number
     description: "Committed Delivery Quantity in Sales Unit"
@@ -1057,16 +937,6 @@ view: vbap {
     description: "Cumulative order quantity in sales units"
     sql: ${TABLE}.kwmeng ;;
   }
-
-  ########################################################
-  #####sum_kwmeng#####
-  measure: sum_kwmeng {
-    type: sum
-    sql: ${kwmeng};;
-   }
-  ####################
-  ########################################################
-
   dimension: kzbws {
     type: string
     description: "Valuation of Special Stock"
