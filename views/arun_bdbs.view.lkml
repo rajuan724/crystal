@@ -6,6 +6,10 @@ view: arun_bdbs {
     description: "Assigned Quantity by ARun"
     sql: ${TABLE}.alloc_qty ;;
   }
+  measure: nivel_servicio{
+    type: average
+    sql: ${alloc_qty}/${vbap2.kbmeng} ;;
+  }
   dimension: arun_mode {
     type: string
     description: "Allocation Run Mode"
