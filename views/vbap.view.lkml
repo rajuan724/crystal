@@ -390,7 +390,7 @@ view: vbap {
   ########infull##########
   dimension: infull {
     type: string
-    sql: IF(${kwmeng}=${lips.lfimg},
+    sql: IF(${kbmeng}=${lips.ormng},
     'DeliveredInFull',
     'NotDeliverdInFull') ;;
     hidden: no
