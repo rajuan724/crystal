@@ -20,7 +20,19 @@ explore: arun_bdbs {
           and ${arun_bdbs.salesdoc_num}=${vbap2.vbeln}
           and ${arun_bdbs.salesdoc_item}=${vbap2.posnr};;
   }
-
+  join: lips{
+    type: left_outer
+    relationship: one_to_many
+    sql_on: ${vbap2.vbeln}=${lips.vgbel}
+          and ${vbap2.posnr}=${lips.vgpos}
+          and ${vbap2.mandt}=${lips.mandt};;
+  }
+  join: vbak{
+    type: inner
+    relationship: many_to_one
+    sql_on: ${vbap2.vbeln}=${vbak.vbeln}
+      and ${vbap2.mandt}=${vbak.mandt};;
+  }
 }
 
 explore: but000 {}
