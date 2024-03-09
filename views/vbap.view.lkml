@@ -1062,7 +1062,7 @@ view: vbap {
   #####sum_kwmeng#####
   measure: sum_kwmeng {
     type: sum
-    sql: ${kwmeng};;
+    sql: ${kbmeng};;
    }
   ####################
   ########################################################
