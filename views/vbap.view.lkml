@@ -1070,11 +1070,6 @@ view: vbap {
     sql: ${kbmeng};;
    }
   ####################
-  #####sum_lfimg#####
-  measure: sum_lfimg {
-    type: sum
-    sql:${lips.lfimg};;
-  }
   ########################################################
 
   dimension: kzbws {

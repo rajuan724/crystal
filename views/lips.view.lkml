@@ -898,6 +898,14 @@ view: lips {
     description: "Actual quantity delivered (in sales units)"
     sql: ${TABLE}.lfimg ;;
   }
+  ###########################################################
+  #####sum_lfimg#####
+  measure: sum_lfimg {
+    type: sum
+    sql:${lips.lfimg};;
+  }
+  ############################################################
+
   dimension: lfimg_flo {
     type: number
     description: "Internal field/ Do not use     / LFIMG in float / MUM"
