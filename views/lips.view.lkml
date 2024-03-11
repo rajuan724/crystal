@@ -1,6 +1,11 @@
 view: lips {
   sql_table_name: `SAP_RAW.lips` ;;
 
+  dimension: key {
+    type: string
+    primary_key: yes
+    sql: CONCAT(${mandt},${posnr},${vbeln});;
+  }
   dimension_group: _dataaging {
     type: time
     description: "Data Filter Value for Data Aging"

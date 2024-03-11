@@ -1,6 +1,11 @@
 view: vbap {
   sql_table_name: `SAP_RAW.vbap` ;;
 
+  dimension: key {
+    type: string
+    primary_key: yes
+    sql: CONCAT(${mandt},${posnr},${vbeln});;
+  }
   dimension_group: _dataaging {
     type: time
     description: "Data Filter Value for Data Aging"
@@ -1065,6 +1070,11 @@ view: vbap {
     sql: ${kbmeng};;
    }
   ####################
+  #####sum_lfimg#####
+  measure: sum_lfimg {
+    type: sum
+    sql:${lips.lfimg};;
+  }
   ########################################################
 
   dimension: kzbws {

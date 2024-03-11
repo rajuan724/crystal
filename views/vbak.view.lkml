@@ -1096,6 +1096,68 @@ view: vbak {
     datatype: date
     sql: ${TABLE}.vdatu ;;
   }
+
+  ###############################################################################################################################
+  parameter: date_granularity {
+    type: unquoted
+    allowed_value: {
+      label: "Year"
+      value: "year"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Week"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Date"
+      value: "date"
+    }
+  }
+
+  dimension: date_vdatu {
+
+    sql: {% if date_granularity._parameter_value == 'year' %}
+          ${vdatu_year}
+        {% elsif date_granularity._parameter_value == 'month' %}
+          ${vdatu_month}
+        {% elsif date_granularity._parameter_value == 'week' %}
+          ${vdatu_week}
+        {% elsif date_granularity._parameter_value == 'date' %}
+          ${vdatu_date}
+        {% endif %} ;;
+  }
+
+  dimension: date_erdat {
+
+    sql: {% if date_granularity._parameter_value == 'year' %}
+          ${erdat_year}
+        {% elsif date_granularity._parameter_value == 'month' %}
+          ${erdat_month}
+        {% elsif date_granularity._parameter_value == 'week' %}
+          ${erdat_week}
+        {% elsif date_granularity._parameter_value == 'date' %}
+          ${erdat_date}
+        {% endif %} ;;
+  }
+
+  dimension: date_aedat {
+
+    sql: {% if date_granularity._parameter_value == 'year' %}
+          ${aedat_year}
+        {% elsif date_granularity._parameter_value == 'month' %}
+          ${aedat_month}
+        {% elsif date_granularity._parameter_value == 'week' %}
+          ${aedat_week}
+        {% elsif date_granularity._parameter_value == 'date' %}
+          ${aedat_date}
+        {% endif %} ;;
+  }
+  ###############################################################################################################################
+
   dimension: vgbel {
     type: string
     description: "Document number of the reference document"
